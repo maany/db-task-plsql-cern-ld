@@ -1,0 +1,10 @@
+# Use this file for comments as asked in the tasks description. You can also use it for any other further comments you might have, but please indicate accordingly.
+
+Task 2: Identify general issues, caveats and weaknesses present in the provided code and verbally propose improvements. This may include but not be limited to error handling and PL/SQL coding best practices.
+# Your comments for task 2 here
+
+Task 3: Consider that in a production system you have to deal with millions of settings. Identify the potential performance issues in the code.
+# Your comments for task 3 here
+
+Other:
+# further comments / general comments
