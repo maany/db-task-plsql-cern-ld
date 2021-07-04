@@ -3,8 +3,15 @@
 Task 2: Identify general issues, caveats and weaknesses present in the provided code and verbally propose improvements. This may include but not be limited to error handling and PL/SQL coding best practices.
 # Your comments for task 2 here
 
+
 Task 3: Consider that in a production system you have to deal with millions of settings. Identify the potential performance issues in the code.
 # Your comments for task 3 here
+## Get rid of name field in `parameters` and 'process' tables
+- Table parameters has pk `parameter_id`. The field `parameter_name` also has `not null` and `unique` constraints. This is equivalent to a `primary key` constraint. Do we need that info?
+- Same argument for tables#field: `process#process_name`
+- Getting rid of `name` fields could be better : https://stackoverflow.com/questions/3162202/sql-primary-key-integer-vs-varchar
 
+## Add index
+- https://www.progress.com/tutorials/odbc/using-indexes
 Other:
 # further comments / general comments
