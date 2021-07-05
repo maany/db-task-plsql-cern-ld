@@ -33,4 +33,10 @@ end;
 select * from settings;
 select * from ACTIVE_SETTING_PER_PARAM_PROCESS;
 /
-update settings set is_active = 'N' where parameter_id = 1 and process_id = 1;
+update settings set is_active = 'Y' where parameter_id = 1 and process_id = 1;
+update settings set is_active = 'Y' where setting_id = 1;
+
+/
+create unique index enforce_one_is_valid on settings (parameter_id, process_id, nullif(is_active, 'N'));
+/
+drop index enforce_one_is_valid;
