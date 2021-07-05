@@ -10,11 +10,11 @@ You inherited a settings management module of the control system that was left b
 
 Your task is to analyse the module, identify its weaknesses, and propose or implement the solutions, as enumerated in the list of the tasks below.
 
-The schema of the database is available in `00-setup.sql`. It is also represented visually below:
+The schema of the database is available in `00-setup-00-ddl.sql`. It is also represented visually below:
 
 ![schema](./doc/schema.png "Schema")
 
-The database relies on PL/SQL functions and procedures specified in `01-00-code.sql`.
+The database relies on PL/SQL functions and procedures specified in `01-code-00-init.sql`.
 ### Development setup
 
 In order to ease your debugging, we recommend to use the [Oracle Cloud service](https://www.oracle.com/cloud/free/) when working on this challenge. For this purpose, we did set up one Oracle Cloud database instance for each candidate. Your personal connection details and credentials should be included in the coding challenge invitation e-mail.
@@ -29,8 +29,8 @@ Example configuration for connecting with SQLDeveloper:
 
 Once you have set up the connection, you can set up your database content via executing the provided sql files in this order:
 
-1. `00-setup.sql`: To create tables, sequences, etc.
-2. `01-00-code.sql`: To create PL/SQL functions and procedures
+1. `00-setup-00-ddl.sql`: To create tables, sequences, etc.
+2. `01-code-00-init.sql`: To create PL/SQL functions and procedures
 3. `02-data.sql`: To populate the tables with data
 
 You should then be ready to work on the tasks below.
