@@ -1,3 +1,5 @@
-doc
+doc/config
 .DS_Store
 db_users.sql
+./test/*.zip
+test/utPLSQL
