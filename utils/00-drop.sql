@@ -48,3 +48,6 @@ BEGIN
       END;
    END LOOP;
 END;
+/
+drop table settings;
+/

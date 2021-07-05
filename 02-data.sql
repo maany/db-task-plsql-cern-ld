@@ -10,10 +10,11 @@ insert into parameters (parameter_id, parameter_name) values (parameters_seq.nex
 insert into processes (process_id, process_name) values (processes_seq.nextval, 'PROCESS_01');
 insert into processes (process_id, process_name) values (processes_seq.nextval, 'PROCESS_02');
 
-exec create_int_setting ('SCALAR_PARAM_01', 'PROCESS_01', 1);
-exec create_int_setting ('SCALAR_PARAM_01', 'PROCESS_01', 2);
-
-exec copy_settings ('SCALAR_PARAM_01', 'PROCESS_01', 'SCALAR_PARAM_02', 'PROCESS_02');
+begin
+create_int_setting ('SCALAR_PARAM_01', 'PROCESS_01', 1);
+create_int_setting ('SCALAR_PARAM_01', 'PROCESS_01', 2);
+copy_settings ('SCALAR_PARAM_01', 'PROCESS_01', 'SCALAR_PARAM_02', 'PROCESS_02');
+end;
 
 insert into settings (setting_id, parameter_id, process_id, is_active, value_type)
 values (settings_seq.nextval, get_parameter_id_by_name('FUNCTION_PARAM_01'), get_process_id_by_name('PROCESS_02'), 'Y', 'FUNCTION');
