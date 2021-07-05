@@ -19,15 +19,3 @@ create or replace package body test_task_4 as
     end util_get_active_setting;
 
 end test_task_4;
-/
-begin
-    test_task_4.util
-end;
-/
-select PARAMETER_ID, PROCESS_ID, count(PARAMETER_ID) as no_active_settings
-from settings
-where IS_ACTIVE = 'Y'
-  and PARAMETER_ID = 2
-  and PROCESS_ID = 2
-group by (PARAMETER_ID, PROCESS_ID)
-/
