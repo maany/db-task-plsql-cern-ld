@@ -4,7 +4,7 @@ create table settings_cache
         constraint settings_cache_parameter_id_nn not null,
     process_id           number
         constraint settings_cache_process_id_nn not null,
-    active_setting_id number default -1
+    active_setting_id number
         constraint settings_cache_active_settings_id_nn not null
 );
 
