@@ -8,8 +8,8 @@ declare
     l_record_exists            number;
 begin
     l_log_message := 'Trigger: [ parameter_id: ' || :new.parameter_id || ', process_id:' || :new.process_id || ']';
-    l_currently_active_setting := get_active_setting_id(:new.PARAMETER_ID, :new.PROCESS_ID);
-    l_record_exists := check_record_exists(:new.PARAMETER_ID, :new.PROCESS_ID);
+    l_currently_active_setting := task4.get_active_setting_id(:new.PARAMETER_ID, :new.PROCESS_ID);
+    l_record_exists := task4.check_record_exists(:new.PARAMETER_ID, :new.PROCESS_ID);
 
     if inserting then
         dbms_output.put_line(l_log_message || 'Inserting into settings table.');

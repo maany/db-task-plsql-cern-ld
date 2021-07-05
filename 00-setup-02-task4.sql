@@ -20,3 +20,4 @@ alter table settings_cache
 -- new setting with is_active = 'Y' is attempted to be added to settings table while an active setting is already existing
 -- p.s. this works in combination with the trigger
 create unique index enforce_one_is_active on settings_cache (nullif(active_setting_id, null));
+/
