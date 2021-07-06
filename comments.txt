@@ -2,9 +2,33 @@
 
 Task 2: Identify general issues, caveats and weaknesses present in the provided code and verbally propose improvements. This may include but not be limited to error handling and PL/SQL coding best practices.
 # Your comments for task 2 here
+1. setting up of, at least, unit tests and error handling ( as you've mentioned), packages for storing procedures/functions that have been optimized for the db.
+2. Optimize queries used inside of functions/procedures. At present, queries do not make use of indexes/views.
+   I believe that we could partition settings table and use local partition contexts and indexes to optimize queries where we need to group by (parameter_id, process_id) in settings table.
+3. Add views that join setting table with corresponding setting_{setting_type} table and use those views wherever fetching setting data specific to a single setting_type. (like in task 8)
+4. Use more of streaming table functions/pipelined table functions as settings tables can quickly grow.
+5. In setting_value_types table, change the primary key. It is currently of type varchar2(30) and using smaller or even numeric keys would help speed up queries.
+6. Schema Changes: In settings, two setting rows can have the same (parameter_id, process_id, is_active, value_type) values and essentially represent the same setting.
+   - The setting table needs to be normalized to remove this redundancy.
+   - If we wish to keep history of a particular setting, we can add a new table `setting_history table` to maintain the (setting_id, action_that_happened) information
+7. Change the is_active field to be a number and it should also be nullable. Although this would introduce an insertion anamoly, we could potentially benefit from the following:
+        - We could add another unique index like `CREATE UNIQUE INDEX enforce_only_one_active ON settings ( NULLIF(is_active, null) ); -- 1 means active, null means otherwise.
+        - Maybe there is a way to already use the check constraint, but if I were to implement this schema change, I could get rid of the settings_cache table and the corresponding trigger
+          that is currently used to manage the fact that only one setting per param, process combo can be active at a time.
+8. Expose an API for users: Common procedures must be and exposed as an API for developers.
+   - These procedures must be optimized for the common use cases around the settings table. (forall and bulk collect clauses).
+9. Make use of nocopy in parameter declarations of functions/procedures to avoid additional performance overheads
 
 Task 3: Consider that in a production system you have to deal with millions of settings. Identify the potential performance issues in the code.
 # Your comments for task 3 here
+1. Index:
+        - It must at least have a composite b-tree index on settings table for (parameter_id, process_id) fields.
+        - Settings table could benefit from local partition indexes as well on (parameter_id, process_id) fields.
+2. Normalization of settings table (explained in point 6 above)
+3. In my code submission, the mechanism for enforcing is_valid = 'y' for only one setting per (param, process)  adds additional overhead through the trigger for maintaining settings_cache.
+4. primary key of setting_value type should be numeric or the table should have an index.
+
 
 Other:
 # further comments / general comments
+- The file 03-demo-01-task8 includes and example usage of the function created for task 8.
