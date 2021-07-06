@@ -79,8 +79,8 @@ create or replace package body task8 as
         l_log_header   varchar(256);
         l_setting_type varchar(30);
     begin
-        l_process_id := get_process_id_by_name(i_process_name);
-        l_parameter_id := get_parameter_id_by_name(i_parameter_name);
+        l_process_id := setting_utils.get_process_id_by_name(i_process_name);
+        l_parameter_id := setting_utils.get_parameter_id_by_name(i_parameter_name);
         l_log_header := l_process_id || ', ' || l_parameter_id;
         for record in (select setting_id, is_active, value_type
                        from settings

@@ -11,13 +11,13 @@ insert into processes (process_id, process_name) values (processes_seq.nextval, 
 insert into processes (process_id, process_name) values (processes_seq.nextval, 'PROCESS_02');
 
 begin
-create_int_setting ('SCALAR_PARAM_01', 'PROCESS_01', 1);
-create_int_setting ('SCALAR_PARAM_01', 'PROCESS_01', 2);
-copy_settings ('SCALAR_PARAM_01', 'PROCESS_01', 'SCALAR_PARAM_02', 'PROCESS_02');
+setting_utils.create_int_setting ('SCALAR_PARAM_01', 'PROCESS_01', 1);
+setting_utils.create_int_setting ('SCALAR_PARAM_01', 'PROCESS_01', 2);
+setting_utils.copy_settings ('SCALAR_PARAM_01', 'PROCESS_01', 'SCALAR_PARAM_02', 'PROCESS_02');
 end;
 
 insert into settings (setting_id, parameter_id, process_id, is_active, value_type)
-values (settings_seq.nextval, get_parameter_id_by_name('FUNCTION_PARAM_01'), get_process_id_by_name('PROCESS_02'), 'Y', 'FUNCTION');
+values (settings_seq.nextval, setting_utils.get_parameter_id_by_name('FUNCTION_PARAM_01'), setting_utils.get_process_id_by_name('PROCESS_02'), 'Y', 'FUNCTION');
 
 insert into setting_functions (setting_id, x_value, y_value) values (settings_seq.currval, 0.0, -3.0);
 insert into setting_functions (setting_id, x_value, y_value) values (settings_seq.currval, 0.1, 0);
@@ -26,7 +26,7 @@ insert into setting_functions (setting_id, x_value, y_value) values (settings_se
 insert into setting_functions (setting_id, x_value, y_value) values (settings_seq.currval, 0.5, -1.1);
 
 insert into settings (setting_id, parameter_id, process_id, is_active, value_type)
-values (settings_seq.nextval, get_parameter_id_by_name('FUNCTION_PARAM_02'), get_process_id_by_name('PROCESS_02'), 'Y', 'FUNCTION');
+values (settings_seq.nextval, setting_utils.get_parameter_id_by_name('FUNCTION_PARAM_02'), setting_utils.get_process_id_by_name('PROCESS_02'), 'Y', 'FUNCTION');
 
 insert into setting_functions (setting_id, x_value, y_value) values (settings_seq.currval, 0.0, 3.0);
 insert into setting_functions (setting_id, x_value, y_value) values (settings_seq.currval, 0.1, 2.0);
