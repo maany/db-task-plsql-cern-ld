@@ -1,17 +1,21 @@
 create or replace package body setting_utils as
+    -- function to query parameters table and retrieve parameter_id for the given i_parameter_name
     function get_parameter_id_by_name(
-        i_parameter_name varchar2
+        i_parameter_name varchar2 -- input parameter of type varchar2
     ) return number
         is
+        -- local scoped variable of type number
         l_parameter_id number;
     begin
+        -- query to set l_parameter_id
         select parameter_id
         into l_parameter_id
         from parameters
         where parameter_name = i_parameter_name;
-        return l_parameter_id;
+        -- return the retrieved parameter_id
+        return l_parameter_id; -- missing exception handling
     end;
-
+    -- function to query process table and retrieve the process_id for given process_name
     function get_process_id_by_name(
         i_process_name varchar2
     ) return number
@@ -24,7 +28,7 @@ create or replace package body setting_utils as
         where process_name = i_process_name;
         return l_process_id;
     end;
-
+    --
     procedure create_int_setting(
         i_parameter_name varchar2,
         i_process_name varchar2,
@@ -40,28 +44,28 @@ create or replace package body setting_utils as
         insert into log_messages (message)
         values ('create_int_setting: i_parameter_name=' || i_parameter_name
             || '; i_process_name=' || i_process_name || '; i_value=' || i_value);
-
+        -- disable all settings for given (param_id, process_id) combos
         update settings
         set is_active = 'N'
         where is_active = 'Y'
           and parameter_id = get_parameter_id_by_name(i_parameter_name)
           and process_id = get_process_id_by_name(i_process_name);
-
+        -- insert a new active setting into settings table
         insert into settings (setting_id, parameter_id, process_id, is_active, value_type)
         values (settings_seq.nextval, get_parameter_id_by_name(i_parameter_name),
                 get_process_id_by_name(i_process_name),
                 'Y', 'INT')
         returning setting_id into l_setting_id;
-
+        -- add the value of the setting into the setting_scalars table
         insert into setting_scalars (setting_id, setting_value)
         values (l_setting_id, i_value);
-
+        -- update logs
         insert into log_messages (message) values ('create_int_setting: done');
     exception
         when others then
             logging.ERROR('create_int_setting', 'FAILED!' || l_log_message);
     end;
-
+    -- copies all settings for given (src_parameter_id, src_process_id) to a new (dest_parameter_id, dest_source_id)
     procedure copy_settings(
         i_src_parameter_name varchar2,
         i_src_process_name varchar2,
@@ -156,8 +160,9 @@ create or replace package body setting_utils as
             rollback;
     end ;
 
+    -- for function type settings, evaluates (numerator/denominator) and stores the result in i_numberator_setting.
     procedure divide_setting(
-        i_numerator_setting in out nocopy t_number,
+        i_numerator_setting in out nocopy t_number, -- t_number is a table of number type records
         i_denominator_setting in t_number
     )
         is

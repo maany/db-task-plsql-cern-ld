@@ -27,7 +27,7 @@ Task 3: Consider that in a production system you have to deal with millions of s
 2. Normalization of settings table (explained in point 6 above)
 3. In my code submission, the mechanism for enforcing is_valid = 'y' for only one setting per (param, process)  adds additional overhead through the trigger for maintaining settings_cache.
 4. primary key of setting_value type should be numeric or the table should have an index.
-
+5. create sequences does not cache values.
 
 Other:
 # further comments / general comments
